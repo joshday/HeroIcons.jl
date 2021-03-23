@@ -3,6 +3,9 @@ uuid = "0e288569-e4b5-43fd-9baa-cb516e1232f8"
 authors = ["joshday <emailjoshday@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+ZipFile = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
+
 [compat]
 julia = "1"
 
