@@ -37,12 +37,14 @@ end
 Viewer() = Viewer(5)
 
 function Base.show(io::IO, ::MIME"text/html", o::Viewer)
+    println(io, "<h1>Icon Viewer</h1>")
     println(io, "<ul style='columns:$(o.ncols);-webkit-columns:$(o.ncols);-moz-columns:$(o.ncols);list-style-type:none;'>")
     for (k, v) in pairs(outline)
-        print(io, "<li style='padding-bottom:16px; color: lightgray'>")
-        print(io, "<img alt='$k' title='$k' height=32 width=32 src='$(joinpath(src, "optimized", "outline", v.name * ".svg"))'>")
-        # show(io, MIME"text/html"(), v)
-        print(io, "</img><span style='padding-left: 8px;'>$k</span>")
+        print(io, "<li style='padding-bottom:16px;'>")
+        print(io, "<div style='height:32px;width:32px;color:black !important;'>")
+        print(io, data(v))
+        print(io, "</div>")
+        print(io, "<span style='padding-left: 8px; color:lightgray;'>$k</span>")
         println(io, "</li>")
     end
     println(io, "</ul>")
