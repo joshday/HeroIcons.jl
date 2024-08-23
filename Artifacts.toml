@@ -1,6 +1,6 @@
 [HeroIcons]
-git-tree-sha1 = "aba92ada515893598ce8bb919788595b001cf737"
+git-tree-sha1 = "b1119dbc93a42d3ffeacc38d48fbb8d6db73067c"
 
     [[HeroIcons.download]]
-    sha256 = "acc3648a4ab6c09bb4fbcc9b43f67d7f791a67de7a69bda9b6f78145ef35ffe4"
-    url = "https://github.com/tailwindlabs/heroicons/archive/refs/tags/v1.0.6.tar.gz"
+    sha256 = "cf9619993b18daa93b861b88c9c0d62914b35abab8a893c58ddc415d1b79de5e"
+    url = "https://github.com/tailwindlabs/heroicons/archive/refs/tags/v2.1.5.tar.gz"

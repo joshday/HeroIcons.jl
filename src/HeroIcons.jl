@@ -4,50 +4,59 @@ using Artifacts
 
 export Icon, outline, solid
 
-# init
-src = joinpath(artifact"HeroIcons", "heroicons-1.0.6")
-icons = map(x -> replace(x, ".svg" => ""), readdir(joinpath(src, "optimized", "outline")))
+path = joinpath(artifact"HeroIcons", only(readdir(artifact"HeroIcons")), "optimized")
+
+icons = map(x -> Symbol(replace(x, ".svg" => "", "-" => "_")), readdir(joinpath(path, "24", "outline")))
+
+_filename(x) = replace(string(x), " " => "-", "_" => "-") * ".svg"
+raw_outline(x) = read(joinpath(path, "24", "outline", _filename(x)), String)
+raw_solid(x) = read(joinpath(path, "24", "solid", _filename(x)), String)
+raw_mini(x) = read(joinpath(path, "20", "solid", _filename(x)), String)
+raw_micro(x) = read(joinpath(path, "16", "solid", _filename(x)), String)
 
 #-----------------------------------------------------------------------------# Icon
 struct Icon
-    name::String
-    outline::Bool
-    function Icon(name::AbstractString, outline::Bool=true)
-        name in icons || error("Icon `$name` not found.")
-        new(name, outline)
+    name::Symbol
+    style::Symbol
+    function Icon(name::Symbol, style::Symbol=:outline)
+        @assert name in icons
+        @assert style in (:outline, :solid, :mini, :micro)
+        new(name, style)
     end
 end
 
-function Base.show(io::IO, ::MIME"text/html", o::Icon)
-    sz = o.outline ? 24 : 20
-    print(io, """<div style="height: $(sz)px; width: $(sz)px;">""")
-    show(io, MIME"text/html"(), HTML(data(o)))
-    print(io, "</div>")
+function Base.show(io::IO, ::MIME"text/html", icon::Icon)
+    str = icon.style == :outline ? raw_outline(icon.name) :
+        icon.style == :solid ? raw_solid(icon.name) :
+        icon.style == :mini ? raw_mini(icon.name) :
+        raw_micro(icon.name)
+    println(io, str)
 end
-data(o::Icon) = read(joinpath(src, "optimized", o.outline ? "outline" : "solid", o.name * ".svg"), String)
 
-outline = NamedTuple{Tuple(Symbol.(map(x -> replace(x, "-" => "_"), icons))), NTuple{length(icons), Icon}}(Icon.(icons))
-solid = map(x -> Icon(x.name, false), outline)
+outline = NamedTuple{Tuple(icons), NTuple{length(icons), Icon}}(Icon.(icons))
+solid = map(x -> Icon(x.name, :solid), outline)
+mini = map(x -> Icon(x.name, :mini), outline)
+micro = map(x -> Icon(x.name, :micro), outline)
 
 
 #-----------------------------------------------------------------------------# Viewer
 struct Viewer
-    ncols::Int
+    style::Symbol
+    function Viewer(style::Symbol=:outline)
+        @assert style in (:outline, :solid, :mini, :micro)
+        new(style)
+    end
 end
-Viewer() = Viewer(5)
 
 function Base.show(io::IO, ::MIME"text/html", o::Viewer)
-    println(io, "<h1>Icon Viewer</h1>")
-    println(io, "<ul style='columns:$(o.ncols);-webkit-columns:$(o.ncols);-moz-columns:$(o.ncols);list-style-type:none;'>")
-    for (k, v) in pairs(outline)
-        print(io, "<li style='padding-bottom:16px;'>")
-        print(io, "<div style='height:32px;width:32px;color:black !important;'>")
-        print(io, data(v))
+    println(io, "<h1>Icon Viewer ($(o.style))</h1>")
+    println(io, "<div style='display:flex;flex-wrap:wrap;color=black'>")
+    for icon in getproperty(HeroIcons, o.style)
+        print(io, "<div style='display:block;height:24px;width:24px;padding:8px;' title='$(icon.name)'>")
+        show(io, MIME"text/html"(), icon)
         print(io, "</div>")
-        print(io, "<span style='padding-left: 8px; color:lightgray;'>$k</span>")
-        println(io, "</li>")
     end
-    println(io, "</ul>")
+    println(io, "</div>")
 end
 
 end

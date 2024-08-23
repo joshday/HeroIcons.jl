@@ -6,19 +6,22 @@
 
 ## Usage
 
+HeroIcons come in four sizes/styles: `outline`, `solid`, `mini`, and `micro`.  Each size/style has its own set of icons.
+
+- You can retrieve the raw SVG string via `raw_outline(:arrow_down)` (similarly for `solid`, `mini`, and `micro`).
+- The `Icon` object (`Icon(icon_name::Symbol, style::Symbol)`) displays the SVG in `MIME"text/html"` environments.
+- Icons are "queryable" via `HeroIcons.outline.<TAB>` (similarly for `solid`, `mini`, and `micro`).  E.g. `HeroIcons.outline.arrow_down` will return the `Icon` object for the icon `arrow_down`.
+
 ```julia
 using HeroIcons
 
-Icon("arrow-circle-down")  # outline
+HeroIcons.outline.arrow_down
 
-Icon("arrow-circle-down", false)  # solid
-```
+HeroIcons.solid.arrow_down
 
-- For ease of use, HeroIcons exports two NamedTuples (`outline` and `solid`) that contain every `Icon`.  This lets you auto-complete icon names.
+HeroIcons.mini.arrow_down
 
-```julia
-julia> outline.arrow  # pressing tab in the REPL/Pluto will reveal matching icons.
-arrow_circle_down  arrow_circle_right  arrow_down ...
+HeroIcons.micro.arrow_down
 ```
 
 - To quickly view icons, use HeroIcons.jl with Cobweb.jl!
@@ -26,7 +29,7 @@ arrow_circle_down  arrow_circle_right  arrow_down ...
 ```julia
 using Cobweb
 
-Cobweb.Page(outline.arrow_circle_down)  # View a single icon
+Cobweb.preview(outline.arrow_circle_down)  # View a single icon
 
-Cobweb.Page(HeroIcons.Viewer())  # See all available icons
+Cobweb.preview(HeroIcons.Viewer())  # See all available icons
 ```
