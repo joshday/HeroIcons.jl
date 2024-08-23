@@ -2,7 +2,7 @@ module HeroIcons
 
 using Artifacts
 
-export Icon, outline, solid
+export Icon, outline, solid, mini, micro
 
 path = joinpath(artifact"HeroIcons", only(readdir(artifact"HeroIcons")), "optimized")
 
@@ -49,7 +49,7 @@ struct Viewer
 end
 
 function Base.show(io::IO, ::MIME"text/html", o::Viewer)
-    println(io, "<h1>Icon Viewer ($(o.style))</h1>")
+    println(io, "<h1>Icon Viewer (<code>:$(o.style)</code>)</h1>")
     println(io, "<div style='display:flex;flex-wrap:wrap;color=black'>")
     for icon in getproperty(HeroIcons, o.style)
         print(io, "<div style='display:block;height:24px;width:24px;padding:8px;' title='$(icon.name)'>")
