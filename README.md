@@ -1,3 +1,8 @@
+[![CI](https://github.com/joshday/HeroIcons.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/joshday/HeroIcons.jl/actions/workflows/CI.yml)
+[![Docs Build](https://github.com/joshday/HeroIcons.jl/actions/workflows/Docs.yml/badge.svg)](https://github.com/joshday/HeroIcons.jl/actions/workflows/Docs.yml)
+[![Stable Docs](https://img.shields.io/badge/docs-stable-blue)](https://joshday.github.io/HeroIcons.jl/stable/)
+[![Dev Docs](https://img.shields.io/badge/docs-dev-blue)](https://joshday.github.io/HeroIcons.jl/dev/)
+
 # HeroIcons
 
 - This package provides access to the [https://heroicons.com](https://heroicons.com) collection of SVG icons from Julia.
